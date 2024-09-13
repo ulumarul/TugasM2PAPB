@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -21,18 +22,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.papb.tugasm2papb.ui.theme.TugasM2PAPBTheme
+import com.papb.tugasm2papb.ui.theme.TugasPAPBTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            TugasM2PAPBTheme {
+            TugasPAPBTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -46,8 +44,10 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MyScreen() {
-    var text by remember { mutableStateOf("") }
+    var text1 by remember { mutableStateOf("") }
+    var text2 by remember { mutableStateOf("") }
     var inputText by remember { mutableStateOf("") }
+    var inputNum by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -56,16 +56,30 @@ fun MyScreen() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = text)
+        Text(text = text1)
+        Text(text = text2)
         Spacer(modifier = Modifier.height(16.dp))
         TextField(
             value = inputText,
             onValueChange = { inputText = it },
-            label = { Text("Enter text") }
+            label = { Text("Masukkan Nama") },
+            singleLine = true,
+            modifier = Modifier.fillMaxWidth(0.5f)
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        TextField(
+            value = inputNum,
+            onValueChange = { if (it.all { char -> char.isDigit() }) {
+                inputNum = it
+            } },
+            label = { Text("Masukkan NIM") },
+            singleLine = true,
+            modifier = Modifier.fillMaxWidth(0.5f)
         )
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = {
-            text = inputText
+            text1 = inputText
+            text2 = inputNum
         }) {
             Text("Submit")
         }
@@ -75,7 +89,7 @@ fun MyScreen() {
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    TugasM2PAPBTheme {
+    TugasPAPBTheme {
         MyScreen()
     }
 }
